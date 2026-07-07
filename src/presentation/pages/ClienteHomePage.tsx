@@ -5,6 +5,7 @@ import { useAuth } from '../hooks/useAuth.ts';
 import { useLibros } from '../hooks/useLibros.ts';
 import { LibroCard } from '../components/LibroCard.tsx';
 import { UserAvatar } from '../components/UserAvatar.tsx';
+import { Typewriter } from '../components/Typewriter.tsx';
 import { listarCategorias } from '../../application/categorias/listarCategorias.ts';
 import { useState, useEffect } from 'react';
 import type { Categoria } from '../../domain/Categoria.ts';
@@ -34,9 +35,7 @@ export function ClienteHomePage() {
 
       <main className="app-main">
         <h1 className="page-title">
-          <span className="typewriter">
-            {usuario?.nombre ? `Hola, ${usuario.nombre}` : 'Tus lecturas'}
-          </span>
+          <Typewriter text={usuario?.nombre ? `Hola, ${usuario.nombre}` : 'Tus lecturas'} />
         </h1>
 
         {cargando && <p className="loading-text">Cargando tus libros...</p>}

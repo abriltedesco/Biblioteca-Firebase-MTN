@@ -6,6 +6,7 @@ import { listarLibrosLeidos } from '../../application/lectura/listarLibrosLeidos
 import { listarCategorias } from '../../application/categorias/listarCategorias.ts';
 import { LibroCard } from '../components/LibroCard.tsx';
 import { UserAvatar } from '../components/UserAvatar.tsx';
+import { Typewriter } from '../components/Typewriter.tsx';
 import { EstadoLectura } from '../../domain/EstadoLectura.ts';
 import type { LibroLeido } from '../../application/lectura/listarLibrosLeidos.ts';
 import type { Categoria } from '../../domain/Categoria.ts';
@@ -46,7 +47,7 @@ export function PerfilPage() {
 
       <main className="app-main">
         <h1 className="page-title">
-          <span className="typewriter">Mi perfil</span>
+          <Typewriter text="Mi perfil" />
         </h1>
 
         {/* Datos personales (RF-4.3) */}

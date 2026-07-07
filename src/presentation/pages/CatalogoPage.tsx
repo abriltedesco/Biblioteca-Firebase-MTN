@@ -5,8 +5,9 @@ import { Link, useLocation } from 'react-router-dom';
 import { LibroRepository } from '../../infrastructure/LibroRepository.ts';
 import { listarCategorias } from '../../application/categorias/listarCategorias.ts';
 import { useAuth } from '../hooks/useAuth.ts';
-import { LibroCard } from '../components/LibroCard.tsx';
+import { Typewriter } from '../components/Typewriter.tsx';
 import { UserAvatar } from '../components/UserAvatar.tsx';
+import { LibroCard } from '../components/LibroCard.tsx';
 import { EstadoLectura } from '../../domain/EstadoLectura.ts';
 import { ProgresoLecturaRepository } from '../../infrastructure/ProgresoLecturaRepository.ts';
 import type { Libro } from '../../domain/Libro.ts';
@@ -76,7 +77,7 @@ export function CatalogoPage() {
 
       <main className="app-main">
         <h1 className="page-title">
-          <span className="typewriter">Catálogo</span>
+          <Typewriter text="Catálogo" />
         </h1>
 
         {/* Filtros */}

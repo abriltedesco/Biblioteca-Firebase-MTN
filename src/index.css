@@ -77,22 +77,17 @@ h1 { font-size: clamp(1.8rem, 4vw, 2.6rem); }
 h2 { font-size: clamp(1.3rem, 3vw, 1.8rem); }
 h3 { font-size: 1.15rem; }
 
-/* ── Animación typewriter ───────────────────────────── */
-@keyframes type-reveal {
-  from { clip-path: inset(0 100% 0 0); }
-  to   { clip-path: inset(0 0% 0 0); }
+/* ── Typewriter (controlado por JS) ────────────────── */
+.typewriter-text {
+  display: inline;
 }
-@keyframes caret-blink {
-  0%, 100% { border-color: transparent; }
-  50%       { border-color: var(--sienna); }
-}
-
-.typewriter {
+.typewriter-cursor {
   display: inline-block;
-  border-right: 2px solid transparent;
-  animation:
-    type-reveal  1.1s steps(32, end) 0.1s both,
-    caret-blink  0.7s step-end       0.1s 5;
+  color: var(--sienna);
+  font-weight: 300;
+  margin-left: 1px;
+  transition: opacity 0.1s;
+  font-style: normal;
 }
 
 /* ── Utilidades ─────────────────────────────────────── */
@@ -138,6 +133,7 @@ h3 { font-size: 1.15rem; }
   text-decoration: none;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 6px;
 }
 .btn-primary:hover:not(:disabled) { background: var(--sienna-hover); }
@@ -157,6 +153,7 @@ h3 { font-size: 1.15rem; }
   transition: background 0.15s, color 0.15s;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 6px;
 }
 .btn-outline:hover { background: var(--parchment); }
@@ -654,6 +651,9 @@ h3 { font-size: 1.15rem; }
   border: none;
   letter-spacing: 0.02em;
   width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   text-align: center;
 }
 .btn-accion-primaria:hover:not(:disabled) { background: var(--sienna-hover); }
@@ -671,6 +671,9 @@ h3 { font-size: 1.15rem; }
   color: var(--sepia);
   border: 1.5px solid var(--border);
   width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   text-align: center;
 }
 .btn-accion-secundaria:hover:not(:disabled) {

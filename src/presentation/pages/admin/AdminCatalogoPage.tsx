@@ -7,6 +7,7 @@ import { eliminarLibro } from '../../../application/libros/eliminarLibro.ts';
 import { useAuth } from '../../hooks/useAuth.ts';
 import { LibroCard } from '../../components/LibroCard.tsx';
 import { UserAvatar } from '../../components/UserAvatar.tsx';
+import { Typewriter } from '../../components/Typewriter.tsx';
 import type { Libro } from '../../../domain/Libro.ts';
 import type { Categoria } from '../../../domain/Categoria.ts';
 
@@ -66,8 +67,7 @@ export function AdminCatalogoPage() {
       <main className="app-main">
         <div className="admin-main-header">
           <h1 className="page-title">
-            <span className="typewriter">Catálogo</span>
-          </h1>
+          <Typewriter text="Catálogo" />          </h1>
         </div>
 
         {/* Filtros */}

@@ -7,6 +7,7 @@ import { listarCategorias, crearCategoria } from '../../../application/categoria
 import { LibroRepository } from '../../../infrastructure/LibroRepository.ts';
 import { useAuth } from '../../hooks/useAuth.ts';
 import { UserAvatar } from '../../components/UserAvatar.tsx';
+import { Typewriter } from '../../components/Typewriter.tsx';
 import type { Categoria } from '../../../domain/Categoria.ts';
 
 interface FormState {
@@ -126,9 +127,7 @@ export function LibroFormPage() {
 
       <main className="app-main">
         <h1 className="page-title">
-          <span className="typewriter">
-            {esEdicion ? 'Editar libro' : 'Nuevo libro'}
-          </span>
+          <Typewriter text={esEdicion ? 'Editar libro' : 'Nuevo libro'} />
         </h1>
 
         <form onSubmit={handleSubmit} className="libro-form">
