@@ -1,44 +1,58 @@
 // T-4.4 | US-06 | presentación
-import { Link } from 'react-router-dom';
-import { signOut } from 'firebase/auth';
-import { auth } from '../../infrastructure/firebase.config.ts';
+// ClienteHomePage vive en "/lecturas" — muestra libros en curso y sin empezar
+import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth.ts';
 import { useLibros } from '../hooks/useLibros.ts';
 import { LibroCard } from '../components/LibroCard.tsx';
+import { UserAvatar } from '../components/UserAvatar.tsx';
+import { listarCategorias } from '../../application/categorias/listarCategorias.ts';
+import { useState, useEffect } from 'react';
+import type { Categoria } from '../../domain/Categoria.ts';
 
 export function ClienteHomePage() {
-  const { usuario } = useAuth();
+  const { usuario, rol } = useAuth();
   const { leyendo, noLeidos, cargando } = useLibros();
+  const location = useLocation();
+  const [categorias, setCategorias] = useState<Categoria[]>([]);
 
-  async function handleLogout() {
-    await signOut(auth);
-  }
+  useEffect(() => { listarCategorias().then(setCategorias); }, []);
 
   return (
-    <div className="cliente-layout">
-      <header className="cliente-header">
-        <h1 className="cliente-brand">📚 Biblioteca MTN</h1>
-        <nav className="cliente-nav">
-          <Link to="/catalogo">Catálogo</Link>
-          <Link to="/perfil">Mi perfil</Link>
-          <button className="btn-outline btn-sm" onClick={handleLogout}>Salir</button>
+    <div className="app-layout">
+      <header className="app-header">
+        <Link to="/" className="app-brand">Biblioteca MTN</Link>
+        <nav className="app-nav">
+          <Link
+            to="/lecturas"
+            className={location.pathname === '/lecturas' ? 'active' : ''}
+          >
+            Tus lecturas
+          </Link>
+          <UserAvatar usuario={usuario} rol={rol ?? undefined} />
         </nav>
       </header>
 
-      <main className="cliente-main">
-        <h2 className="cliente-welcome">
-          Hola, {usuario?.nombre} 👋
-        </h2>
+      <main className="app-main">
+        <h1 className="page-title">
+          <span className="typewriter">
+            {usuario?.nombre ? `Hola, ${usuario.nombre}` : 'Tus lecturas'}
+          </span>
+        </h1>
 
         {cargando && <p className="loading-text">Cargando tus libros...</p>}
 
         {!cargando && (
           <>
-            {/* Sección LEYENDO */}
+            {/* En curso */}
             <section className="seccion-lectura">
-              <h3 className="seccion-titulo">📖 Estoy leyendo</h3>
+              <h2 className="section-title">En curso</h2>
               {leyendo.length === 0
-                ? <p className="seccion-vacia">No tenés libros en curso. ¡Explorá el catálogo!</p>
+                ? (
+                  <p className="section-empty">
+                    No tenés libros en curso.{' '}
+                    <Link to="/">Explorá el catálogo</Link>.
+                  </p>
+                )
                 : (
                   <div className="libros-grid">
                     {leyendo.map(({ libro, estado, libroId }) => (
@@ -47,17 +61,23 @@ export function ClienteHomePage() {
                         libro={libro}
                         estado={estado}
                         uid={usuario!.uid}
+                        categorias={categorias}
                       />
                     ))}
                   </div>
                 )}
             </section>
 
-            {/* Sección NO_LEIDO */}
+            {/* Sin empezar */}
             <section className="seccion-lectura">
-              <h3 className="seccion-titulo">🔖 Sin empezar</h3>
+              <h2 className="section-title">Sin empezar</h2>
               {noLeidos.length === 0
-                ? <p className="seccion-vacia">No tenés libros pendientes. ¡Agregá uno desde el catálogo!</p>
+                ? (
+                  <p className="section-empty">
+                    No tenés libros pendientes.{' '}
+                    <Link to="/">Agregá uno desde el catálogo</Link>.
+                  </p>
+                )
                 : (
                   <div className="libros-grid">
                     {noLeidos.map(({ libro, estado, libroId }) => (
@@ -66,6 +86,7 @@ export function ClienteHomePage() {
                         libro={libro}
                         estado={estado}
                         uid={usuario!.uid}
+                        categorias={categorias}
                       />
                     ))}
                   </div>
@@ -77,3 +98,4 @@ export function ClienteHomePage() {
     </div>
   );
 }
+

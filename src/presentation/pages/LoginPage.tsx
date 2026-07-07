@@ -33,7 +33,7 @@ export function LoginPage() {
   return (
     <div className="auth-container">
       <div className="auth-card">
-        <h1 className="auth-title">📚 Biblioteca MTN</h1>
+        <h1 className="auth-title">Biblioteca MTN</h1>
         <h2 className="auth-subtitle">Iniciar sesión</h2>
         <form onSubmit={handleSubmit} className="auth-form">
           <div className="form-group">

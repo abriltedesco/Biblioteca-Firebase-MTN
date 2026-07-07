@@ -11,12 +11,18 @@ import { Libro } from '../domain/Libro.ts';
 const COL = 'libros';
 const PAGE_SIZE = 20;
 
+// Compatibilidad hacia atrás: documentos viejos tienen `categoriaId: string`,
+// los nuevos tienen `categoriaIds: string[]`.
 function docToLibro(id: string, data: DocumentData): Libro {
+  const categoriaIds: string[] =
+    Array.isArray(data.categoriaIds) ? data.categoriaIds
+    : data.categoriaId              ? [data.categoriaId as string]
+    : [];
   return new Libro(
     id,
     data.titulo,
     data.autor,
-    data.categoriaId,
+    categoriaIds,
     data.cantidadPaginas,
     data.contenido,
     new Date(data.createdAt?.toDate?.() ?? data.createdAt),
@@ -33,7 +39,11 @@ export interface PaginaLibros {
 export const LibroRepository = {
   async crear(datos: Omit<Libro, 'id' | 'createdAt' | 'updatedAt'>): Promise<string> {
     const ref = await addDoc(collection(db, COL), {
-      ...datos,
+      titulo:          datos.titulo,
+      autor:           datos.autor,
+      categoriaIds:    datos.categoriaIds,
+      cantidadPaginas: datos.cantidadPaginas,
+      contenido:       datos.contenido,
       createdAt: serverTimestamp(),
       updatedAt: serverTimestamp(),
     });

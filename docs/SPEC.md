@@ -3,7 +3,8 @@
 > **Fase:** Especificación  
 > **Metodología:** Specification-Driven Development (SDD)  
 > **Fecha:** 2026-07-07  
-> **Estado:** ✅ Clarificaciones completas — listo para `/speckit.plan`  
+> **Última revisión:** 2026-07-07 (v2 — UI/UX clásica, multi-categoría, rutas rediseñadas)  
+> **Estado:** ✅ Vigente  
 > **Documento base:** [CONSTITUTION.md](./CONSTITUTION.md)  
 > **Clarificaciones:** [CLARIFICATIONS.md](./CLARIFICATIONS.md)
 
@@ -39,7 +40,9 @@ la Constitución del proyecto.
 | RF-1.1 | El administrador debe poder registrar un nuevo libro. |
 | RF-1.2 | El administrador debe poder modificar los datos de un libro existente. |
 | RF-1.3 | El administrador debe poder dar de baja (eliminar) un libro del catálogo. |
-| RF-1.4 | Para cada libro se debe cargar: título, autor, categoría, estado de lectura inicial, cantidad de páginas y contenido (texto anidado del libro). |
+### RF-1.4 actualizado
+
+> Para cada libro se carga: título, autor, **una o más categorías** (array), cantidad de páginas y contenido.
 
 ### 2. Gestión de usuarios y autenticación
 
@@ -73,29 +76,42 @@ la Constitución del proyecto.
 | ID  | Requisito |
 |-----|-----------|
 | RF-5.1 | El sistema debe permitir listar el catálogo completo de libros. |
-| RF-5.2 | El cliente debe poder filtrar el catálogo por categoría. |
+| RF-5.2 | El cliente debe poder filtrar el catálogo por categoría. Un libro aparece si tiene **al menos una** categoría que coincida con el filtro. |
 | RF-5.3 | El cliente debe poder buscar libros por título o autor. |
 
 ---
 
 ## Requisitos no funcionales
 
-### RNF-1 — Usabilidad
-- La interfaz debe ser amigable y estar inspirada en la experiencia visual de Wattpad.
-- Debe ser simple y rápido encontrar un libro y ver su estado de lectura.
+### RNF-1 — Usabilidad y estética
+- La interfaz debe evocar una biblioteca clásica y literaria: tipografía con serifa, paleta cálida (beiges y marrones), sin colores vibrantes.
+- La fuente para títulos es **IM Fell English** (Google Fonts); el cuerpo usa **Lora**.
+- Los títulos de página incluyen una breve animación de escritura (typewriter).
+- No se usan emojis. Los íconos funcionales deben ser SVG.
+- El estado "Leyendo" y "Leído" tienen mayor jerarquía visual que "Sin empezar".
+- Las categorías se muestran como *tags* dentro de la tarjeta del libro.
+- El avatar del usuario es un ícono circular; desde él se despliega el cierre de sesión.
 
-### RNF-2 — Performance
+### RNF-2 — Navegación
+- La **página principal del cliente** (`/`) es el catálogo.
+- La sección "Tus lecturas" (libros en curso + sin empezar) vive en `/lecturas`.
+- La **página principal del administrador** (`/admin`) es el catálogo con controles de edición y eliminación por libro.
+- El navbar del cliente muestra: logo · "Tus lecturas" · ícono de usuario.
+- El navbar del admin muestra: logo · botón "Nuevo libro" · ícono de usuario (dropdown con "Cerrar sesión").
+
+### RNF-3 — Performance
 - El sistema debe poder manejar al menos **100.000 libros** y **10.000 clientes**.
-- Los listados de libros (catálogo, `LEYENDO`, `NO_LEIDO`, `LEIDO`) deben resolverse con consultas indexadas de Firestore (`where`, `orderBy`, paginación con `startAfter`), sin traer colecciones completas a memoria.
+- Los listados deben resolverse con consultas indexadas de Firestore.
 
-### RNF-3 — Seguridad
+### RNF-4 — Seguridad
 - El acceso a los datos se controla exclusivamente mediante **Reglas de Seguridad de Firestore**.
-- Un cliente no puede modificar el catálogo de libros (acción exclusiva del administrador).
-- Un cliente solo puede ver y modificar su propio estado de lectura, no el de otros clientes.
+- Un cliente no puede modificar el catálogo.
+- Un cliente solo puede ver y modificar su propio estado de lectura.
 
-### RNF-4 — Calidad
-- Las reglas de negocio deben estar separadas de la interfaz (arquitectura en capas: dominio / aplicación / infraestructura / presentación, según la Constitución).
-- Las validaciones importantes deben estar explicitadas como criterios de aceptación.
+### RNF-5 — Calidad
+- Arquitectura en capas: dominio / aplicación / infraestructura / presentación.
+- Sin lógica de negocio en componentes UI. Sin llamadas directas a Firebase desde la presentación.
+- Las validaciones importantes tienen tests.
 
 ---
 

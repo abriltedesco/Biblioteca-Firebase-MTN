@@ -35,14 +35,13 @@ Toda interacción con Firebase se realiza directamente desde el frontend mediant
 
 ### 2.2 Libro
 
-| Campo          | Tipo   | Notas                                        |
-|----------------|--------|----------------------------------------------|
-| título         | string |                                              |
-| autor          | string |                                              |
-| categoría      | enum   | Valores cerrados (ver §5)                    |
-| estado         | enum   | `NO_LEIDO` \| `LEYENDO` \| `LEIDO`          |
-| cantidad_páginas | number |                                            |
-| contenido      | string | Texto anidado del libro                      |
+| Campo          | Tipo       | Notas                                        |
+|----------------|------------|----------------------------------------------|
+| título         | string     |                                              |
+| autor          | string     |                                              |
+| categorías     | string[]   | IDs de categorías (1 o más)                  |
+| cantidad_páginas | number   |                                              |
+| contenido      | string     | Texto del libro, máx. 500.000 caracteres     |
 
 ### 2.3 Roles y responsabilidades
 
@@ -155,11 +154,17 @@ El sistema debe soportar hasta **100.000 libros** y **10.000 clientes**.
 
 ## 9. Experiencia de usuario (UX)
 
-Inspirada en **Wattpad**:
+Estética **clásica y literaria**:
 
-- Encontrar un libro, ver el progreso de lectura y continuar leyendo debe ser **simple, rápido y visualmente claro**.
-- El perfil del cliente muestra de forma directa su **historial de libros leídos**.
-- La interfaz prioriza la usabilidad sobre la complejidad técnica visual.
+- Tipografía con serifa: **IM Fell English** para títulos, **Lora** para el cuerpo.
+- Paleta cálida: beiges, cremas y marrones claros. Sin colores vibrantes.
+- Animación de escritura (*typewriter*) en los títulos de página.
+- Sin emojis en la interfaz. Los íconos funcionales son SVG.
+- Avatar circular de usuario con menú desplegable (cierre de sesión).
+- Las categorías se presentan como *tags* dentro de cada tarjeta de libro.
+- El estado "Leyendo" y "Leído" tienen mayor jerarquía visual que "Sin empezar".
+- La página principal del cliente (`/`) es el **catálogo**; "Tus lecturas" está en `/lecturas`.
+- La página principal del administrador (`/admin`) es el **catálogo con controles de gestión**.
 
 ---
 
